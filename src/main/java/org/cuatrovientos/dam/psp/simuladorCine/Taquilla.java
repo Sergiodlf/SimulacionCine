@@ -37,6 +37,7 @@ public class Taquilla implements Runnable {
 						log("Vendiendo entrada a " + cliente.getNombre());
 						Thread.sleep(tiempoMinVenta + random.nextInt(tiempoMaxVenta - tiempoMinVenta));
 						cola.finalizarCliente(cliente);
+						log("Entrada vendida a " + cliente.getNombre());
 						atendio = true;
 						break;
 					}
