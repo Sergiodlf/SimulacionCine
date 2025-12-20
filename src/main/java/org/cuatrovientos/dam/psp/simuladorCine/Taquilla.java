@@ -10,6 +10,7 @@ public class Taquilla implements Runnable {
 	private long timestampInicio = 0;
     private Random random = new Random();
 
+    // DATOS CONFIGURABLES
     private static final Duration ESPERA_TAQUILLA = Duration.ofMillis(1000);
     private static final int TIEMPO_MIN_VENTA = 20_000;
     private static final int TIEMPO_MAX_VENTA = 30_000;

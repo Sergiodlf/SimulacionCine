@@ -6,7 +6,7 @@ public class GeneradorClientes implements Runnable {
 
 	private ColaCine cola;
 	private long timestampInicio = 0;
-	
+
 	private static final Duration ESPERA_NUEVO_CLIENTE = Duration.ofMillis(4000);
 
 	public GeneradorClientes() {
@@ -17,10 +17,10 @@ public class GeneradorClientes implements Runnable {
 	public void run() {
 		timestampInicio = System.currentTimeMillis();
 		try {
-			int contador = 1;
+			int contadorClientes = 1;
 			boolean generadorEncendido = true;
 			while (generadorEncendido) {
-				Cliente cliente = new Cliente("Cliente_" + contador++);
+				Cliente cliente = new Cliente("Cliente_" + contadorClientes++);
 
 				log("Se manda a la cola nuevo cliente: " + cliente.getNombre());
 				cola.agregarCliente(cliente);
@@ -37,7 +37,7 @@ public class GeneradorClientes implements Runnable {
 	}
 
 	private void log(String mensaje) {
-		System.out.println("[" + Thread.currentThread().threadId() + "][ GeneradorClientes ] "
+		System.out.println("[" + Thread.currentThread().threadId() + "][ GENERADOR ] "
 				+ (System.currentTimeMillis() - timestampInicio) + ": " + mensaje);
 	}
 }

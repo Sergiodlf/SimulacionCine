@@ -6,11 +6,12 @@ public class CineMain {
 
 	// DATOS CONFIGURABLES
 	private static final int ASIENTOS_DISPONIBLES = 200;
+	private static final int CAPACIDAD_MAXIMA_COLA = 10;
 	private static final Duration INTERVALO_MONITORIZACION = Duration.ofSeconds(10);
 
 	public static void main(String[] args) {
 		// Crear cola, taquillas y generador de clientes
-		ColaCine cola = new ColaCine(ASIENTOS_DISPONIBLES);
+		ColaCine cola = new ColaCine(ASIENTOS_DISPONIBLES, CAPACIDAD_MAXIMA_COLA);
 		Taquilla taquilla1 = new Taquilla("Taquilla_1");
 		Taquilla taquilla2 = new Taquilla("Taquilla_2");
 		GeneradorClientes generador = new GeneradorClientes();

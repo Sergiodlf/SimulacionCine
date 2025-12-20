@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ColaCine {
 	private int asientosDisponibles;
+	private int capacidadMaximaCola;
 
 	// Listas para los estados de los clientes
 	private List<Cliente> clientesRecibidos;
@@ -13,9 +14,10 @@ public class ColaCine {
 	private List<Cliente> clientesAtendidos;
 	private List<Cliente> clientesSinEntrada;
 
-	public ColaCine(int asientosDisponibles) {
+	public ColaCine(int asientosDisponibles, int capacidadMaximaCola) {
 		super();
 		this.asientosDisponibles = asientosDisponibles;
+		this.capacidadMaximaCola = capacidadMaximaCola;
 		this.clientesRecibidos = new ArrayList<>();
 		this.clientesEnCola = new ArrayList<>();
 		this.clientesEnAtencion = new ArrayList<>();
@@ -24,10 +26,18 @@ public class ColaCine {
 	}
 
 	// Método para añadir un cliente nuevo a la cola
-	public synchronized void agregarCliente(Cliente cliente) {
+	public synchronized boolean agregarCliente(Cliente cliente) {
 		log("Llega a la cola cliente: " + cliente.getNombre());
 		clientesRecibidos.add(cliente);
+
+		if (clientesEnCola.size() >= capacidadMaximaCola) { // Añadir
+			clientesSinEntrada.add(cliente);
+			log("Cola llena, cliente " + cliente.getNombre() + " se va");
+			return false;
+		}
+
 		clientesEnCola.add(cliente);
+		return true;
 	}
 
 	// Función para conseguir el siguiente cliente de la cola
@@ -36,19 +46,19 @@ public class ColaCine {
 			return null;
 		}
 
+		Cliente c = clientesEnCola.remove(0);
+
 		if (asientosDisponibles <= 0) {
-			Cliente c = clientesEnCola.remove(0);
 			clientesSinEntrada.add(c);
 			log("No hay asientos, cliente se queda sin entrada: " + c.getNombre());
 			return null;
 		}
 
-		Cliente cliente = clientesEnCola.remove(0);
-		clientesEnAtencion.add(cliente);
+		clientesEnAtencion.add(c);
 		asientosDisponibles--;
 
-		log("Cliente pasa a taquilla: " + cliente.getNombre());
-		return cliente;
+		log("Cliente pasa a taquilla: " + c.getNombre());
+		return c;
 	}
 
 	// Método para finalizar la venta de un cliente
