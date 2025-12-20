@@ -72,12 +72,12 @@ public class ColaCine {
 	}
 
 	private void log(String mensaje) {
-		System.out.println("[" + Thread.currentThread().threadId() + "][ COLA ] " + mensaje);
+		System.out.println("[" + Thread.currentThread().threadId() + "][ "+ this.nombre +" ] " + mensaje);
 	}
 
 	@Override
 	public synchronized String toString() {
-		return "ColaCine [ ColaUnica ] " + "Recibidos=" + clientesRecibidos.size() + ", EnCola=" + clientesEnCola.size()
+		return "ColaCine [ "+ this.nombre +" ] " + "Recibidos=" + clientesRecibidos.size() + ", EnCola=" + clientesEnCola.size()
 				+ ", Atendidos=" + clientesAtendidos.size() + ", SinEntrada=" + clientesSinEntrada.size()
 				+ ", AsientosRestantes=" + asientosDisponibles;
 	}
