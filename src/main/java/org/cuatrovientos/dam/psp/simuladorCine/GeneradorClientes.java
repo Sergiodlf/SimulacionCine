@@ -1,13 +1,14 @@
 package org.cuatrovientos.dam.psp.simuladorCine;
 
 import java.time.Duration;
+import java.util.List;
 
 public class GeneradorClientes implements Runnable {
 
-	private ColaCine cola;
-	private long timestampInicio = 0;
-
 	private static final Duration ESPERA_NUEVO_CLIENTE = Duration.ofMillis(4000);
+
+	private List<ColaCine> colas;
+	private long timestampInicio = 0;
 
 	public GeneradorClientes() {
 		super();
@@ -22,8 +23,18 @@ public class GeneradorClientes implements Runnable {
 			while (generadorEncendido) {
 				Cliente cliente = new Cliente("Cliente_" + contadorClientes++);
 
-				log("Se manda a la cola nuevo cliente: " + cliente.getNombre());
-				cola.agregarCliente(cliente);
+				boolean agregado = false;
+				for (ColaCine cola : colas) {
+					if (cola.agregarCliente(cliente)) {
+						log("Se manda a la cola nuevo cliente: " + cliente.getNombre());
+						agregado = true;
+						break;
+					}
+				}
+
+				if (!agregado) {
+					System.out.println("[GENERADOR] Cliente se va por colas llenas: " + cliente.getNombre());
+				}
 
 				Thread.sleep(ESPERA_NUEVO_CLIENTE);
 			}
@@ -32,8 +43,8 @@ public class GeneradorClientes implements Runnable {
 		}
 	}
 
-	public void asignarCola(ColaCine cola) {
-		this.cola = cola;
+	public void asignarColas(List<ColaCine> colas) {
+		this.colas = colas;
 	}
 
 	private void log(String mensaje) {

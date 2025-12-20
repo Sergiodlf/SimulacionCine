@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ColaCine {
+
+	private String nombre;
 	private int asientosDisponibles;
 	private int capacidadMaximaCola;
 
@@ -14,8 +16,9 @@ public class ColaCine {
 	private List<Cliente> clientesAtendidos;
 	private List<Cliente> clientesSinEntrada;
 
-	public ColaCine(int asientosDisponibles, int capacidadMaximaCola) {
+	public ColaCine(String nombre, int asientosDisponibles, int capacidadMaximaCola) {
 		super();
+		this.nombre = nombre;
 		this.asientosDisponibles = asientosDisponibles;
 		this.capacidadMaximaCola = capacidadMaximaCola;
 		this.clientesRecibidos = new ArrayList<>();
@@ -30,7 +33,7 @@ public class ColaCine {
 		log("Llega a la cola cliente: " + cliente.getNombre());
 		clientesRecibidos.add(cliente);
 
-		if (clientesEnCola.size() >= capacidadMaximaCola) { // Añadir
+		if (clientesEnCola.size() >= capacidadMaximaCola) {
 			clientesSinEntrada.add(cliente);
 			log("Cola llena, cliente " + cliente.getNombre() + " se va");
 			return false;
